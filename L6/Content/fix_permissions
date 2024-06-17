@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# usage: fix_permissions dir
+#
+# Alexis Martins - Pablo Saez - Thomas Germano - 12.05.24
+
+# Check if an argument was provided
+if [ -z "$1" ]; then
+    echo "Error: No directory specified."
+    exit 1
+fi
+
+# Check if the provided argument is a valid directory
+if [ ! -d "$1" ]; then
+    echo "Error: '$1' is not a valid directory."
+    exit 1
+fi
+
+# Find world-writable files and directories
+world_writable=$(find "$1" -perm -o+w)
+
+# Check if any world-writable files or directories were found
+if [ -z "$world_writable" ]; then
+    echo "No world-writable files or directories found."
+    exit 0
+else
+    echo "The following files/directories are world-writable:"
+    echo "$world_writable"
+fi
+
+# Ask the user if they want to fix the permissions
+read -p "Do you want the permissions to be fixed (y/n)? " answer
+
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    # Fix the permissions by removing write permission for others
+    find "$1" -perm -o+w -exec chmod o-w {} \;
+    echo "Permissions have been fixed."
+else
+    echo "Permissions have not been modified."
+fi

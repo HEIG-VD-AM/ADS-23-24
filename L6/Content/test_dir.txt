@@ -1,0 +1,21 @@
+test_dir:
+total 16
+-rw-r--r-- 1 root   root      0 May  4 19:31 bar
+-rw-r----- 1 alexis proj_b    0 May  4 19:31 baz
+drw-rw---- 2 alexis proj_b 4096 May  4 19:31 baz2
+drwxr-xr-x 2 root   root   4096 May  4 19:31 dir1
+drwxr-xr-x 2 root   root   4096 May  4 19:31 dir2
+drwxrwx--- 2 alexis proj_a 4096 May  4 19:31 dir3
+-rw-r----- 1 alexis proj_a    0 May  4 19:31 foo
+
+test_dir/baz2:
+total 0
+
+test_dir/dir1:
+total 0
+
+test_dir/dir2:
+total 0
+
+test_dir/dir3:
+total 0

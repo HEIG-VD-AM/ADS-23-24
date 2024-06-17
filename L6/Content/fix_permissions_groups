@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# usage: fix_permissions_groups dir
+#
+# Alexis Martins - Pablo Saez - Thomas Germano - 12.05.24
+
+# Check if an argument was provided
+if [ -z "$1" ]; then
+    echo "Error: No directory specified."
+    exit 1
+fi
+
+# Check if the provided argument is a valid directory
+if [ ! -d "$1" ]; then
+    echo "Error: '$1' is not a valid directory."
+    exit 1
+fi
+
+# Get the username and personal group
+USERNAME="$USER"
+PERSONAL_GROUP=$(id -gn "$USERNAME")
+
+# Find group-writable files and directories that are not owned by the personal group
+group_writable=$(find "$1" -perm -g+w ! -group "$PERSONAL_GROUP")
+
+# Check if any group-writable files or directories were found
+if [ -z "$group_writable" ]; then
+    echo "No group-writable files or directories found."
+else
+    echo "The following files/directories are writable for groups:"
+    echo "$group_writable"
+fi
+
